@@ -17,3 +17,13 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# Documents and Reports
+*.doc
+*.docx
+
+# Python
+*.py
+*.pyc
+__pycache__/
+
