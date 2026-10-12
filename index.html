@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyFlow — Academic Task Manager & Syllabus Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Toast notification system -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- AUTHENTICATION VIEW -->
+  <main id="auth-view" class="auth-view">
+    <div class="auth-container">
+      <!-- Left side: Branding & Calm Academic Messaging -->
+      <section class="auth-brand-side">
+        <div class="brand-side-content">
+          <div class="brand-logo-lockup">
+            <div class="logo-mark">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                <path d="M6 6h10"/>
+                <path d="M6 10h7"/>
+                <path d="m14 14 2 2 4-4"/>
+              </svg>
+            </div>
+            <span class="brand-title">StudyFlow</span>
+          </div>
+
+          <div class="brand-hero-text">
+            <span class="hero-tag">Personal Academic Hub</span>
+            <h1 class="hero-heading">Plan with calm.<br>Study with focus.<br>Master your syllabus.</h1>
+            <p class="hero-subheading">
+              Break down semester syllabi into manageable units, get intelligent recommendations on what to study next, and walk into exam week confident and prepared.
+            </p>
+          </div>
+
+          <div class="brand-pillars">
+            <div class="pillar-item">
+              <div class="pillar-icon">🎯</div>
+              <div class="pillar-text">
+                <strong>Smart Priority Engine</strong>
+                <span>Always know your highest-impact task based on deadlines and difficulty.</span>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">📊</div>
+              <div class="pillar-text">
+                <strong>Course Progress Tracking</strong>
+                <span>Track unit mastery across all courses in one clean, unified dashboard.</span>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">🧘</div>
+              <div class="pillar-text">
+                <strong>Zero Cramming, Low Stress</strong>
+                <span>Paced learning built for university students to eliminate deadline panic.</span>
+              </div>
+            </div>
+          </div>
+
+          <footer class="brand-quote">
+            <p>“Small, consistent study blocks compound into effortless academic mastery.”</p>
+          </footer>
+        </div>
+      </section>
+
+      <!-- Right side: Create Account / Log In Forms -->
+      <section class="auth-form-side">
+        <div class="auth-card">
+          <!-- Backend Connection Status Pill -->
+          <div id="server-status-pill" class="server-status-pill checking" title="Status of StudyFlow Node.js backend server">
+            <span class="status-indicator-dot"></span>
+            <span id="server-status-text">Checking backend connection...</span>
+          </div>
+
+          <!-- Direct File Protocol Warning -->
+          <div id="file-protocol-warning" class="file-protocol-warning hidden">
+            <div class="warning-icon">💡</div>
+            <div class="warning-content">
+              <strong>Direct File Mode (file://)</strong>
+              <p>For live database persistence & real-time sync, run <code>npm start</code> in terminal and open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>.</p>
+            </div>
+          </div>
+
+          <!-- Auth tab switch -->
+          <div class="auth-tabs" role="tablist">
+            <button id="tab-register-btn" class="auth-tab-btn active" role="tab" aria-selected="true" type="button">
+              Create Account
+            </button>
+            <button id="tab-login-btn" class="auth-tab-btn" role="tab" aria-selected="false" type="button">
+              Log In
+            </button>
+          </div>
+
+          <!-- Alert message box -->
+          <div id="auth-alert" class="auth-alert hidden" role="alert"></div>
+
+          <!-- Registration Form -->
+          <form id="register-form" class="auth-form" novalidate>
+            <div class="form-header">
+              <h2>Join StudyFlow</h2>
+              <p>Create your private student workspace.</p>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-name">Full Name</label>
+              <div class="input-wrapper">
+                <input type="text" id="reg-name" name="name" placeholder="e.g. Alex Morgan" autocomplete="name" required>
+              </div>
+              <span class="field-error" id="reg-name-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-email">University or Personal Email</label>
+              <div class="input-wrapper">
+                <input type="email" id="reg-email" name="email" placeholder="alex@university.edu" autocomplete="email" required>
+              </div>
+              <span class="field-error" id="reg-email-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-password">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="reg-password" name="password" placeholder="At least 6 characters" autocomplete="new-password" required>
+                <button type="button" class="toggle-password-btn" data-target="reg-password" aria-label="Toggle password visibility">
+                  <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="field-hint">Must be at least 6 characters</span>
+              <span class="field-error" id="reg-password-error"></span>
+            </div>
+
+            <button type="submit" id="reg-submit-btn" class="btn btn-primary btn-block">
+              <span class="btn-text">Create Account & Get Started</span>
+              <span class="btn-spinner hidden"></span>
+            </button>
+
+            <div class="auth-divider">
+              <span>OR</span>
+            </div>
+
+            <button type="button" class="btn btn-outline-demo btn-block demo-trigger-btn">
+              <span>🚀 Explore in Instant Demo Mode</span>
+            </button>
+
+            <div class="auth-switch-text">
+              Already have an account? <button type="button" class="text-link" id="switch-to-login">Log in here</button>
+            </div>
+          </form>
+
+          <!-- Login Form -->
+          <form id="login-form" class="auth-form hidden" novalidate>
+            <div class="form-header">
+              <h2>Welcome back</h2>
+              <p>Enter your credentials to access your dashboard.</p>
+            </div>
+
+            <div class="form-group">
+              <label for="login-email">Email Address</label>
+              <div class="input-wrapper">
+                <input type="email" id="login-email" name="email" placeholder="alex@university.edu" autocomplete="email" required>
+              </div>
+              <span class="field-error" id="login-email-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="login-password" name="password" placeholder="Your account password" autocomplete="current-password" required>
+                <button type="button" class="toggle-password-btn" data-target="login-password" aria-label="Toggle password visibility">
+                  <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="field-error" id="login-password-error"></span>
+            </div>
+
+            <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block">
+              <span class="btn-text">Log In to StudyFlow</span>
+              <span class="btn-spinner hidden"></span>
+            </button>
+
+            <div class="auth-divider">
+              <span>OR</span>
+            </div>
+
+            <button type="button" class="btn btn-outline-demo btn-block demo-trigger-btn">
+              <span>🚀 Explore in Instant Demo Mode</span>
+            </button>
+
+            <div class="auth-switch-text">
+              Don't have an account yet? <button type="button" class="text-link" id="switch-to-register">Create one now</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- DASHBOARD / APP VIEW -->
+  <div id="app-view" class="app-view hidden">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-inner container">
+        <div class="header-brand">
+          <div class="logo-mark sm">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+              <path d="M6 6h10"/>
+              <path d="M6 10h7"/>
+              <path d="m14 14 2 2 4-4"/>
+            </svg>
+          </div>
+          <span class="brand-title">StudyFlow</span>
+        </div>
+
+        <div class="header-center">
+          <div class="date-badge" id="header-date">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <span id="current-date-text">Today</span>
+          </div>
+        </div>
+
+        <div class="header-user">
+          <div class="user-chip">
+            <div class="avatar-badge" id="user-avatar">?</div>
+            <div class="user-info">
+              <span class="user-name" id="user-display-name">Student</span>
+              <span class="user-email-sub" id="user-display-email"></span>
+            </div>
+          </div>
+          <button id="logout-btn" class="btn btn-outline-sm" title="Log out of StudyFlow" aria-label="Log out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main container">
+      <!-- Welcome Hero Banner -->
+      <section class="welcome-banner">
+        <div class="welcome-text">
+          <h1 id="user-greeting" class="welcome-title">Good day!</h1>
+          <p class="welcome-subtitle">Here is your academic progress and smart study priorities for today.</p>
+        </div>
+        <div class="welcome-actions">
+          <button id="open-add-task-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add Task</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 4 Metric Summary Cards -->
+      <section class="summary-grid" aria-label="Academic Summary">
+        <div class="summary-card">
+          <div class="summary-icon icon-open">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Open Tasks</span>
+            <div class="summary-value" id="stat-open-tasks">0</div>
+            <span class="summary-sub">Pending syllabus units</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon icon-completed">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Completed Tasks</span>
+            <div class="summary-value" id="stat-completed-tasks">0</div>
+            <span class="summary-sub">Mastered topics</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon icon-progress">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Syllabus Completion</span>
+            <div class="summary-value" id="stat-completion-rate">0%</div>
+            <div class="mini-progress-bar-wrap">
+              <div class="mini-progress-bar" id="stat-progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-card" id="card-overdue">
+          <div class="summary-icon icon-overdue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Overdue Tasks</span>
+            <div class="summary-value" id="stat-overdue-tasks">0</div>
+            <span class="summary-sub" id="stat-overdue-sub">Past target deadline</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Smart Recommendation Section: "Start here next" -->
+      <section class="recommendation-section" aria-label="Smart Study Recommendation">
+        <div id="recommendation-container">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Two Column Layout: Task Manager & Course Progress -->
+      <div class="dashboard-columns">
+        <!-- Main: Task Manager -->
+        <section class="tasks-section" aria-label="Task Manager">
+          <div class="section-card">
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Study Tasks</h2>
+                <p class="section-subtitle">Manage and conquer your academic schedule.</p>
+              </div>
+              <div class="section-header-actions">
+                <button id="quick-add-task-btn" class="btn btn-secondary-sm">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>New Task</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Task Controls: Filters & Search -->
+            <div class="task-controls">
+              <div class="filter-pills" role="tablist">
+                <button class="filter-pill active" data-filter="all">All (<span id="count-filter-all">0</span>)</button>
+                <button class="filter-pill" data-filter="open">Open (<span id="count-filter-open">0</span>)</button>
+                <button class="filter-pill" data-filter="completed">Completed (<span id="count-filter-completed">0</span>)</button>
+              </div>
+
+              <div class="task-search-wrap">
+                <div class="search-input-wrapper">
+                  <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="task-search-input" placeholder="Search title, course, or unit...">
+                  <button id="clear-search-btn" class="clear-search-btn hidden" aria-label="Clear search">×</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task List Container -->
+            <div class="tasks-list" id="tasks-list-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Sidebar: Course Progress Tracker -->
+        <section class="courses-section" aria-label="Course Progress Tracker">
+          <div class="section-card">
+            <div class="section-header">
+              <div>
+                <h2 class="section-title">Course Mastery</h2>
+                <p class="section-subtitle">Progress grouped by subject syllabus.</p>
+              </div>
+            </div>
+
+            <div class="courses-list" id="courses-list-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD TASK MODAL -->
+  <div id="add-task-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <h3 id="modal-title" class="modal-title">Add Study Task</h3>
+        </div>
+        <button id="close-modal-btn" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <form id="add-task-form" class="modal-form" novalidate>
+        <div id="task-form-alert" class="auth-alert hidden"></div>
+
+        <div class="form-group">
+          <label for="task-title">Task Title <span class="required">*</span></label>
+          <input type="text" id="task-title" name="title" placeholder="e.g. Solve Practice Set on Dijkstra's Algorithm" required maxlength="120">
+          <span class="field-error" id="task-title-error"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-course">Course / Subject <span class="required">*</span></label>
+            <input type="text" id="task-course" name="course" placeholder="e.g. CS201 Data Structures" required maxlength="80" list="existing-courses-datalist">
+            <datalist id="existing-courses-datalist"></datalist>
+            <span class="field-error" id="task-course-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="task-unit">Unit or Module <span class="required">*</span></label>
+            <input type="text" id="task-unit" name="unit" placeholder="e.g. Unit 4: Graph Theory" required maxlength="80">
+            <span class="field-error" id="task-unit-error"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Difficulty Level <span class="required">*</span></label>
+          <div class="difficulty-selector">
+            <label class="difficulty-radio difficulty-easy">
+              <input type="radio" name="difficulty" value="Easy" checked>
+              <span class="difficulty-tile">
+                <span class="dot"></span>
+                <strong>Easy</strong>
+                <small>Quick review</small>
+              </span>
+            </label>
+            <label class="difficulty-radio difficulty-medium">
+              <input type="radio" name="difficulty" value="Medium">
+              <span class="difficulty-tile">
+                <span class="dot"></span>
+                <strong>Medium</strong>
+                <small>Standard study</small>
+              </span>
+            </label>
+            <label class="difficulty-radio difficulty-hard">
+              <input type="radio" name="difficulty" value="Hard">
+              <span class="difficulty-tile">
+                <span class="dot"></span>
+                <strong>Hard</strong>
+                <small>Deep focus</small>
+              </span>
+            </label>
+          </div>
+          <span class="field-error" id="task-difficulty-error"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-due-date">Due Date <span class="required">*</span></label>
+            <input type="date" id="task-due-date" name="dueDate" required>
+            <span class="field-error" id="task-due-date-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="task-minutes">Estimated Study Time (minutes) <span class="required">*</span></label>
+            <div class="minutes-input-group">
+              <input type="number" id="task-minutes" name="estimatedMinutes" value="45" min="5" max="720" required>
+              <div class="quick-minute-chips">
+                <button type="button" class="quick-chip" data-mins="25">25m</button>
+                <button type="button" class="quick-chip" data-mins="45">45m</button>
+                <button type="button" class="quick-chip" data-mins="60">60m</button>
+                <button type="button" class="quick-chip" data-mins="90">90m</button>
+              </div>
+            </div>
+            <span class="field-error" id="task-minutes-error"></span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancel-task-btn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="save-task-btn" class="btn btn-primary">
+            <span class="btn-text">Save Task</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOCUS STUDY TIMER MODAL -->
+  <div id="timer-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="timer-task-title">
+    <div class="modal-dialog modal-timer">
+      <div class="modal-header">
+        <div class="timer-mode-tag">
+          <span class="pulse-indicator"></span> Focus Study Mode
+        </div>
+        <button id="close-timer-btn" class="modal-close-btn" aria-label="Close timer">&times;</button>
+      </div>
+
+      <div class="timer-body">
+        <span class="timer-course-unit" id="timer-course-unit">Course &bull; Unit</span>
+        <h3 id="timer-task-title" class="timer-task-title">Task Title</h3>
+
+        <div class="timer-circle-wrap">
+          <svg class="timer-svg" width="220" height="220" viewBox="0 0 220 220">
+            <circle class="timer-track" cx="110" cy="110" r="95"></circle>
+            <circle class="timer-progress" id="timer-progress-ring" cx="110" cy="110" r="95"></circle>
+          </svg>
+          <div class="timer-display" id="timer-countdown">25:00</div>
+        </div>
+
+        <p class="timer-quote" id="timer-quote">Put away notifications. Deep focus on one concept at a time.</p>
+
+        <div class="timer-controls">
+          <button id="timer-toggle-btn" class="btn btn-primary btn-lg">
+            <span id="timer-toggle-icon">&#9654;</span>
+            <span id="timer-toggle-text">Start Focus</span>
+          </button>
+          <button id="timer-reset-btn" class="btn btn-secondary" title="Reset timer">Reset</button>
+        </div>
+
+        <div class="timer-footer">
+          <button id="timer-complete-task-btn" class="btn btn-success-sm">
+            &#10003; Finished! Mark Task Complete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

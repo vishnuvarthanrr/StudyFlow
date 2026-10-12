@@ -1,0 +1,21 @@
+{
+  "name": "studyflow",
+  "version": "1.0.0",
+  "description": "Personal academic task manager and syllabus-progress tracker for university students",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test_api.js"
+  },
+  "keywords": [
+    "study",
+    "syllabus",
+    "task-manager",
+    "student-productivity",
+    "university"
+  ],
+  "author": "StudyFlow Team",
+  "license": "MIT"
+}

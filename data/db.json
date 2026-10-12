@@ -1,0 +1,58 @@
+{
+  "users": [
+    {
+      "id": "746d53ab-f4e6-49df-94e0-251c0329dfcd",
+      "name": "Vishnuvarthan R",
+      "email": "2516140@saec.ac.in",
+      "salt": "0c80a213dff7042b7800d8d0374a169d",
+      "passwordHash": "a1abeb03f8341ae70cdf6eac369e5f85f151fdbc0fbeca2971c0bc9e5e040b3d9ffacc6ba272ebc6fcfe989622c25bc3de9f69a4b6aa6f7a12dacfc1584a0c68",
+      "createdAt": "2026-10-10T17:26:55.896Z"
+    },
+    {
+      "id": "f873e7bc-e1a6-4b2c-b8b5-9736ce46fd77",
+      "name": "Maya Lin",
+      "email": "student_1791688295020@university.edu",
+      "salt": "b17a86f5dc958bdcf49edf7155e4207b",
+      "passwordHash": "7355a6a58120165dca7cc92657b511ec702e8dbe72ca9ba02837cbbd2d86e5ccb1e3d94c9b060f3fd9e09563ee79b85ca3e54834972f8f1c3da74f651ea57869",
+      "createdAt": "2026-10-11T03:11:35.101Z"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "82e4d8625e8f7d2cd40e5ea49e0c07a664b9926bd3c71dad644f74f1bb6cea71",
+      "userId": "f873e7bc-e1a6-4b2c-b8b5-9736ce46fd77",
+      "createdAt": "2026-10-11T03:11:35.319Z",
+      "expiresAt": "2026-10-18T03:11:35.319Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "cd1dde24-3e71-4f84-9c65-a67ffd1236d9",
+      "userId": "f873e7bc-e1a6-4b2c-b8b5-9736ce46fd77",
+      "title": "Review AVL Tree Rotations",
+      "course": "CS201 Data Structures",
+      "unit": "Unit 3: Balanced Trees",
+      "difficulty": "Hard",
+      "dueDate": "2026-10-10",
+      "estimatedMinutes": 60,
+      "completed": true,
+      "completedAt": "2026-10-11T03:11:35.343Z",
+      "createdAt": "2026-10-11T03:11:35.331Z",
+      "updatedAt": "2026-10-11T03:11:35.343Z"
+    },
+    {
+      "id": "2a0243d0-5304-47e6-898a-0b1e4693b792",
+      "userId": "746d53ab-f4e6-49df-94e0-251c0329dfcd",
+      "title": "Java OOPs concepts",
+      "course": "NPTEL",
+      "unit": "Lecture 1-24",
+      "difficulty": "Hard",
+      "dueDate": "2026-10-12",
+      "estimatedMinutes": 90,
+      "completed": false,
+      "completedAt": null,
+      "createdAt": "2026-10-11T03:22:40.193Z",
+      "updatedAt": "2026-10-11T03:23:47.725Z"
+    }
+  ]
+}
